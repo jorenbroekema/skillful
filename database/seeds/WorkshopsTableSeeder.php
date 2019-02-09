@@ -3,16 +3,15 @@
 use Illuminate\Database\Seeder;
 
 /* phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace */
-class DatabaseSeeder extends Seeder
+class WorkshopsTableSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call(UsersTableSeeder::class);
-        $this->call(WorkshopsTableSeeder::class);
+        factory(App\Workshop::class, 10)->create();
     }
 }
