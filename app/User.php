@@ -27,4 +27,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Relation hasMany
+     * The workshops that are owned by the users
+     *
+     * @return App\Workshop[]
+     */
+    public function ownedWorkshops()
+    {
+        return $this->hasMany(Workshop::class, 'owner_id')->get();
+    }
 }

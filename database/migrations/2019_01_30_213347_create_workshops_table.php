@@ -19,6 +19,7 @@ class CreateWorkshopsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->integer('difficulty');
+            $table->unsignedInteger('owner_id');
             $table->timestamps();
         });
     }
