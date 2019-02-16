@@ -12,6 +12,10 @@ class WorkshopsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Workshop::class, 10)->create();
+        factory(App\Workshop::class, 10)->create()->each(function ($workshop) {
+            $randomAmount = rand(0, 5);
+            $users = App\User::inRandomOrder()->take($randomAmount)->get();
+            $workshop->users()->saveMany($users);
+        });
     }
 }

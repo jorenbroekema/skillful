@@ -32,10 +32,21 @@ class User extends Authenticatable
      * Relation hasMany
      * The workshops that are owned by the users
      *
-     * @return App\Workshop[]
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function ownedWorkshops()
     {
         return $this->hasMany(Workshop::class, 'owner_id')->get();
+    }
+
+    /**
+     * Relation belongsToMany
+     * The workshops that the user is participating in
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function workshops()
+    {
+        return $this->belongsToMany('App\Workshop')->withTimestamps();
     }
 }
