@@ -36,7 +36,7 @@ class User extends Authenticatable
      */
     public function ownedWorkshops()
     {
-        return $this->hasMany(Workshop::class, 'owner_id')->get();
+        return $this->hasMany(Workshop::class, 'owner_id');
     }
 
     /**
@@ -48,5 +48,27 @@ class User extends Authenticatable
     public function workshops()
     {
         return $this->belongsToMany('App\Workshop')->withTimestamps();
+    }
+
+    /**
+     * Relation hasMany
+     * The workshops that are owned by the users
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ownedGroups()
+    {
+        return $this->hasMany(Group::class, 'owner_id');
+    }
+
+    /**
+     * Relation belongsToMany
+     * The groups that the user is a member of
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany('App\Group')->withTimestamps();
     }
 }

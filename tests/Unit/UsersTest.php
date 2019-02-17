@@ -18,7 +18,8 @@ class UsersTest extends TestCase
         $this->assertEquals(null, $user->ownedWorkshops()->first());
 
         $workshop = factory('App\Workshop')->create();
-        $workshop->owner_id = $user->id;
+        $workshop->owner()->associate($user)->save();
+
         $this->assertEquals($workshop->description, $user->ownedWorkshops()->first()->description);
     }
 
@@ -37,12 +38,39 @@ class UsersTest extends TestCase
         $this->assertEquals(11, $user->workshops()->get()->count());
     }
 
-    /*
-    public function users_can_be_part_of_group(Type $var = null)
+    /** @test */
+    public function users_can_own_groups()
     {
-        # code...
+        $group = factory('App\Group')->create();
+        $user = factory('App\User')->create();
+        $group->owner()->associate($user)->save();
+
+        $this->assertEquals($user->id, $group->owner()->first()->id);
+
+        $groups = factory('App\Group', 4)->create();
+        $user->ownedGroups()->saveMany($groups);
+
+        $this->assertEquals(5, $user->ownedGroups()->count());
+        $this->assertEquals($groups[1]->title, $user->ownedGroups()->get()[2]->title);
     }
 
+    /** @test */
+    public function users_can_be_part_of_multiple_groups()
+    {
+        $groups = factory('App\Group', 2)->create();
+        $users = factory('App\User', 3)->create();
+
+        $groups[0]->users()->saveMany([$users[0], $users[1]]);
+        $groups[1]->users()->saveMany([$users[1], $users[2]]);
+
+        $this->assertEquals($users[0]->name, $groups[0]->users()->first()->name);
+        $this->assertEquals($users[1]->name, $groups[0]->users()->orderBy('id', 'DESC')->first()->name);
+        $this->assertEquals($users[1]->name, $groups[1]->users()->first()->name);
+    }
+
+    /*
+    // Use pivot table here with "privilige level" column
+    // Can always change to a JSON column or multiple may_do_X boolean columns
     public function users_can_be_group_admin(Type $var = null)
     {
         # code...

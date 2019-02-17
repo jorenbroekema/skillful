@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 
 /* phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace */
-class WorkshopsTableSeeder extends Seeder
+class GroupsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,13 +12,13 @@ class WorkshopsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Workshop::class, 10)->create()->each(function ($workshop) {
-            $randomAmount = rand(0, 5);
+        factory(App\Group::class, 2)->create()->each(function ($group) {
+            $randomAmount = rand(1, 7);
             $users = App\User::inRandomOrder()->take($randomAmount)->get();
-            $workshop->users()->saveMany($users);
+            $group->users()->saveMany($users);
 
             $owner = App\User::inRandomOrder()->first();
-            $workshop->owner()->associate($owner)->save();
+            $group->owner()->associate($owner)->save();
         });
     }
 }
