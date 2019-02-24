@@ -14,7 +14,8 @@ class WorkshopsController extends Controller
      */
     public function index()
     {
-        //
+        $workshops = Workshop::all();
+        return view('workshops.index', compact('workshops'));
     }
 
     /**
@@ -24,7 +25,7 @@ class WorkshopsController extends Controller
      */
     public function create()
     {
-        //
+        return view('workshops.create');
     }
 
     /**
@@ -35,7 +36,20 @@ class WorkshopsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /* $workshop = new Workshop($request->only([
+            'title',
+            'description',
+            'difficulty',
+        ])); */
+
+        $workshop = new Workshop();
+        $workshop->title = $request->title;
+        $workshop->description = $request->description;
+        $workshop->difficulty = $request->difficulty;
+        $workshop->owner_id = $request->owner_id || request()->user()->id;
+        $workshop->save();
+
+        return redirect('/workshops');
     }
 
     /**
@@ -46,7 +60,7 @@ class WorkshopsController extends Controller
      */
     public function show(Workshop $workshop)
     {
-        //
+        return view('workshops.show', compact('workshop'));
     }
 
     /**
@@ -57,7 +71,7 @@ class WorkshopsController extends Controller
      */
     public function edit(Workshop $workshop)
     {
-        //
+        return view('workshops.edit', compact('workshop'));
     }
 
     /**
@@ -69,7 +83,13 @@ class WorkshopsController extends Controller
      */
     public function update(Request $request, Workshop $workshop)
     {
-        //
+        $workshop->title = $request->title;
+        $workshop->description = $request->description;
+        $workshop->difficulty = $request->difficulty;
+
+        $workshop->save();
+
+        return redirect('/workshops');
     }
 
     /**
@@ -80,6 +100,8 @@ class WorkshopsController extends Controller
      */
     public function destroy(Workshop $workshop)
     {
-        //
+        $workshop->delete();
+
+        return redirect('workshops');
     }
 }
