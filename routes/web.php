@@ -11,12 +11,18 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('', 'HomeController@index');
 
+
+/**
+ * Workshop related controllers
+ */
 Route::resource('workshops', 'WorkshopsController');
+Route::patch('participants/{participant}', 'WorkshopParticipantsController@addParticipant');
+Route::delete('participants/{participant}', 'WorkshopParticipantsController@removeParticipant');
