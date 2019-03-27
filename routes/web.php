@@ -26,3 +26,8 @@ Route::get('', 'HomeController@index');
 Route::resource('workshops', 'WorkshopsController');
 Route::patch('participants/{participant}', 'WorkshopParticipantsController@addParticipant');
 Route::delete('participants/{participant}', 'WorkshopParticipantsController@removeParticipant');
+
+/**
+ * Group related controllers
+ */
+Route::resource('groups', 'GroupsController');
