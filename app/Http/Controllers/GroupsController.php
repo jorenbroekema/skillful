@@ -84,7 +84,8 @@ class GroupsController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        dd($request);
+        return redirect('/workshops');
     }
 
     /**
