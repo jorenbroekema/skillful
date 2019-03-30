@@ -14,8 +14,8 @@ class GroupsTableSeeder extends Seeder
     {
         factory(App\Group::class, 2)->create()->each(function ($group) {
             $randomAmount = rand(1, 7);
-            $users = App\User::inRandomOrder()->take($randomAmount)->get();
-            $group->users()->saveMany($users);
+            $members = App\User::inRandomOrder()->take($randomAmount)->get();
+            $group->members()->saveMany($members);
 
             $owner = App\User::inRandomOrder()->first();
             $group->owner()->associate($owner)->save();

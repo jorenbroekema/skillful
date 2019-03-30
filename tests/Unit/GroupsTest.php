@@ -22,15 +22,15 @@ class GroupsTest extends TestCase
     }
 
     /** @test */
-    public function group_can_have_multiple_users()
+    public function group_can_have_multiple_members()
     {
-        $users = factory('App\User', 3)->create();
-        $secondUserName = $users[1]->name;
-        $group = factory('App\Workshop')->create();
+        $members = factory('App\User', 3)->create();
+        $secondUserName = $members[1]->name;
+        $group = factory('App\Group')->create();
 
-        $this->assertEquals(null, $group->users()->first());
-        $group->users()->saveMany($users);
-        $this->assertEquals(3, $group->users()->get()->count());
-        $this->assertEquals($secondUserName, $group->users()->get()[1]->name);
+        $this->assertEquals(null, $group->members()->first());
+        $group->members()->saveMany($members);
+        $this->assertEquals(3, $group->members()->get()->count());
+        $this->assertEquals($secondUserName, $group->members()->get()[1]->name);
     }
 }

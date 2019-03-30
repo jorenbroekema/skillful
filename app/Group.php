@@ -26,11 +26,11 @@ class Group extends Model
 
     /**
      * Relation belongsToMany
-     * The users that are a member of this group
+     * The members of this group
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users()
+    public function members()
     {
         return $this->belongsToMany('App\User')->withTimestamps();
     }

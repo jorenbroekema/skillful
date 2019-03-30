@@ -58,14 +58,14 @@ class UsersTest extends TestCase
     public function users_can_be_part_of_multiple_groups()
     {
         $groups = factory('App\Group', 2)->create();
-        $users = factory('App\User', 3)->create();
+        $members = factory('App\User', 3)->create();
 
-        $groups[0]->users()->saveMany([$users[0], $users[1]]);
-        $groups[1]->users()->saveMany([$users[1], $users[2]]);
+        $groups[0]->members()->saveMany([$members[0], $members[1]]);
+        $groups[1]->members()->saveMany([$members[1], $members[2]]);
 
-        $this->assertEquals($users[0]->name, $groups[0]->users()->first()->name);
-        $this->assertEquals($users[1]->name, $groups[0]->users()->orderBy('id', 'DESC')->first()->name);
-        $this->assertEquals($users[1]->name, $groups[1]->users()->first()->name);
+        $this->assertEquals($members[0]->name, $groups[0]->members()->first()->name);
+        $this->assertEquals($members[1]->name, $groups[0]->members()->orderBy('id', 'DESC')->first()->name);
+        $this->assertEquals($members[1]->name, $groups[1]->members()->first()->name);
     }
 
     /*

@@ -16,8 +16,8 @@ class GroupsController extends Controller
     public function index()
     {
         $groups = [
-            "allGroups" => Group::all(),
-            "ownGroups" => Auth::user()->groups()->get(),
+            'allGroups' => Group::all(),
+            'ownGroups' => Auth::check() ? Auth::user()->groups()->get() : [],
         ];
 
         return view('groups.index', compact('groups'));
@@ -30,7 +30,7 @@ class GroupsController extends Controller
      */
     public function create()
     {
-        //
+        return view('groups.create');
     }
 
     /**
@@ -41,7 +41,16 @@ class GroupsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributes = $this->validateRequest($request);
+
+        $group = Group::create($attributes);
+        $group->owner()->associate(auth()->user());
+        $group->members()->attach(auth()->id());
+        $group->save();
+
+        // TODO: add event GroupsCreated
+
+        return redirect('/groups');
     }
 
     /**
@@ -63,7 +72,7 @@ class GroupsController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        return view('groups.edit');
     }
 
     /**
@@ -87,5 +96,19 @@ class GroupsController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+
+    /**
+     * Validate the request attributes
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|null array of valid attributes or null if request is invalidated
+     */
+    protected function validateRequest(Request $request)
+    {
+        return $request->validate([
+            'name' => ['required', 'min:3'],
+            'description' => ['required', 'min:3'],
+        ]);
     }
 }

@@ -71,6 +71,9 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf
                 </form>
+                <form action="/groups/create" method="GET">
+                  <button class="dropdown-item" onclick="this.form.submit()">Create Group</button>
+                </form>
               </div>
             </li>
             @endguest
