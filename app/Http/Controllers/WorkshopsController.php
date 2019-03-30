@@ -36,17 +36,9 @@ class WorkshopsController extends Controller
      */
     public function store(Request $request)
     {
-        /* $workshop = new Workshop($request->only([
-            'title',
-            'description',
-            'difficulty',
-        ])); */
-
-        $workshop = new Workshop();
-        $workshop->title = $request->title;
-        $workshop->description = $request->description;
-        $workshop->difficulty = $request->difficulty;
-        $workshop->owner_id = $request->owner_id || request()->user()->id;
+        $attributes = $this->validateRequest($request);
+        $workshop = Workshop::create($attributes);
+        $workshop->owner()->associate(auth()->user());
         $workshop->save();
 
         return redirect('/workshops');
@@ -103,5 +95,20 @@ class WorkshopsController extends Controller
         $workshop->delete();
 
         return redirect('workshops');
+    }
+
+    /**
+     * Validate the request attributes
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|null array of valid attributes or null if request is invalidated
+     */
+    protected function validateRequest(Request $request)
+    {
+        return $request->validate([
+            'title' => ['required', 'min:3'],
+            'description' => ['required', 'min:3'],
+            'difficulty' => ['required'],
+        ]);
     }
 }
