@@ -47,12 +47,12 @@ class User extends Authenticatable
      */
     public function workshops()
     {
-        return $this->belongsToMany('App\Workshop')->withTimestamps();
+        return $this->belongsToMany(Workshop::class)->withTimestamps();
     }
 
     /**
      * Relation hasMany
-     * The workshops that are owned by the users
+     * The workshops that are owned by the user
      *
      * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -69,6 +69,28 @@ class User extends Authenticatable
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Group')->withTimestamps();
+        return $this->belongsToMany(Group::class)->withTimestamps();
+    }
+
+    /**
+     * Relation hasMany
+     * The skills that are owned by the user
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function skills()
+    {
+        return $this->hasMany(Skill::class)->withTimestamps();
+    }
+
+    /**
+     * Relation hasMany
+     * The skills that are wanted by the user
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wantedSkills()
+    {
+        return $this->hasMany(Skill::class)->withTimestamps();
     }
 }
