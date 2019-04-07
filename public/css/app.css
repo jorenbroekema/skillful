@@ -10508,3 +10508,29 @@ body {
   border-top: 4px solid #e3342f;
 }
 
+.card .participate-button {
+  align-self: flex-end;
+}
+
+/* WORKSHOP DATE IN CARD */
+
+.card .date {
+  min-width: 150px;
+}
+
+.date--start .date__card {
+  border-top: 4px solid #4dc0b5;
+}
+
+.date--start .date__heading {
+  color: #4dc0b5;
+}
+
+.date--end .date__card {
+  border-top: 4px solid #e3342f;
+}
+
+.date--end .date__heading {
+  color: #e3342f;
+}
+
