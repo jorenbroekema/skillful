@@ -36,8 +36,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="./workshops">Workshops</a></li>
-            <li class="nav-item"><a class="nav-link" href="./groups">Groups</a></li>
+            <li class="nav-item"><a class="nav-link" href="/workshops">Workshops</a></li>
+            <li class="nav-item"><a class="nav-link" href="/groups">Groups</a></li>
           </ul>
 
           <!-- Right Side Of Navbar -->
@@ -71,6 +71,9 @@
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf
+                </form>
+                <form action="/workshops/create" method="GET">
+                  <button class="dropdown-item" onclick="this.form.submit()">Create Workshop</button>
                 </form>
                 <form action="/groups/create" method="GET">
                   <button class="dropdown-item" onclick="this.form.submit()">Create Group</button>

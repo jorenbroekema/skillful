@@ -8,12 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkshopParticipantsController extends Controller
 {
+    // TODO: Change to DRY -> a single addOrRemove function
     public function addParticipant(Request $request)
     {
         $workshop = Workshop::find($request->workshop);
         $participant = Auth::user();
         $workshop->users()->save($participant);
-        return redirect('/workshops/');
+
+        $lastCharOriginURL = substr($request->header('referer'), -1);
+        $originatesFromShow = is_numeric($lastCharOriginURL);
+
+        return redirect('/workshops/' . ($originatesFromShow ? $lastCharOriginURL : ''));
     }
 
     public function removeParticipant(Request $request)
@@ -21,6 +26,10 @@ class WorkshopParticipantsController extends Controller
         $workshop = Workshop::find($request->workshop);
         $participant = Auth::user();
         $workshop->users()->detach($participant);
-        return redirect('/workshops/');
+
+        $lastCharOriginURL = substr($request->header('referer'), -1);
+        $originatesFromShow = is_numeric($lastCharOriginURL);
+
+        return redirect('/workshops/' . ($originatesFromShow ? $lastCharOriginURL : ''));
     }
 }

@@ -61,7 +61,7 @@ class GroupsController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        return view('groups.show', compact('group'));
     }
 
     /**
@@ -84,8 +84,8 @@ class GroupsController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        dd($request);
-        return redirect('/workshops');
+        $group->update($this->validateRequest($request));
+        return redirect('/groups');
     }
 
     /**
@@ -96,7 +96,8 @@ class GroupsController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $group->destroy($group->id);
+        return redirect('/groups');
     }
 
     /**

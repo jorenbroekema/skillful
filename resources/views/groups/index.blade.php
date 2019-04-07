@@ -41,7 +41,8 @@
       <h3>My Groups</h3>
       @if(isset($groups['ownGroups']) && $groups['ownGroups'])
       @foreach ($groups['ownGroups'] as $group)
-        @component('groups.show')
+        @component('groups.components.group')
+          @slot('canEdit'){{ 'true' }}@endslot
           @slot('name'){{ $group->name }}@endslot
           @slot('id'){{ $group->id }}@endslot
           @slot('description'){{ $group->description }}@endslot
@@ -57,7 +58,8 @@
     >
       <h3>All Groups</h3>
       @foreach ($groups['allGroups'] as $group)
-        @component('groups.show')
+        @component('groups.components.group')
+          @slot('canEdit'){{ "false" }}@endslot
           @slot('name'){{ $group->name }}@endslot
           @slot('id'){{ $group->id }}@endslot
           @slot('description'){{ $group->description }}@endslot
