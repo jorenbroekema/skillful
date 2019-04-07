@@ -32,6 +32,6 @@ class Group extends Model
      */
     public function members()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 }
