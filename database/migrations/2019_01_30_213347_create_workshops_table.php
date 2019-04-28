@@ -20,11 +20,13 @@ class CreateWorkshopsTable extends Migration
             $table->text('description');
             $table->integer('difficulty');
             $table->unsignedInteger('owner_id')->default(0);
+            $table->datetime('start_date');
+            $table->datetime('end_date');
             $table->timestamps();
         });
     }
 
-    /**
+    /*
      * Reverse the migrations.
      *
      * @return void

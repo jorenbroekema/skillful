@@ -36,7 +36,7 @@ class WorkshopsController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = $this->validateRequest($request, true);
+        $attributes = $this->validateRequest($request);
         $workshop = Workshop::create($attributes);
         $workshop->owner()->associate(auth()->user());
         $workshop->save();
@@ -75,7 +75,7 @@ class WorkshopsController extends Controller
      */
     public function update(Request $request, Workshop $workshop)
     {
-        $workshop->update($this->validateRequest($request, false));
+        $workshop->update($this->validateRequest($request));
         return redirect('/workshops');
     }
 
@@ -98,16 +98,15 @@ class WorkshopsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array|null array of valid attributes or null if request is invalidated
      */
-    protected function validateRequest(Request $request, $requiresDifficulty)
+    protected function validateRequest(Request $request)
     {
         $validationCriteria = [
             'title' => ['required', 'min:3'],
             'description' => ['required', 'min:3'],
+            'difficulty' => ['required'],
+            'start_date' => ['required'],
+            'end_date' => ['required'],
         ];
-
-        if ($requiresDifficulty) {
-            $validationCriteria['difficulty'] = ['required'];
-        }
 
         return $request->validate($validationCriteria);
     }
