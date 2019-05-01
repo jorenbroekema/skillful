@@ -9,7 +9,16 @@
   <div class="row">
     <div class="col">
     @component('groups.components.group')
-      @slot('canEdit'){{ "true" }}@endslot
+      @slot('canEdit'){{ "false" }}@endslot
+      @if ($group->owner->id === Auth::id())
+        @slot('canEdit'){{ "true" }}@endslot
+      @endif
+      @slot('canJoin'){{ "true" }}@endslot
+      @foreach($group->members as $member)
+        @if ($member->id === Auth::id())
+          @slot('canJoin'){{ "false" }}@endslot
+        @endif
+      @endforeach
       @slot('name'){{ $group->name }}@endslot
       @slot('id'){{ $group->id }}@endslot
       @slot('description'){{ $group->description }}@endslot
@@ -21,6 +30,21 @@
       Owner: {{ $group->owner->name }}
     </div>
   </div>
+  @foreach($group->members as $member)
+    @if ($member->id === Auth::id() && $group->owner->id !== Auth::id())
+      <div class="row mb-4">
+        <div class="col">
+          <form method="POST" action="/members/{{ Auth::id() }}">
+            @method('DELETE')
+            @csrf
+            <input type="hidden" name="group" value="{{ $group->id }}">
+            <button class="btn btn-danger" onclick="this.form.submit()">Leave</button>
+          </form>
+        </div>
+      </div>
+    @endif
+  @endforeach
+
 
   <div class="row justify-content-between danger-divider pt-4">
     <div class="col-8">

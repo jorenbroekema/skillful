@@ -44,11 +44,9 @@
         @component('groups.components.group')
           @slot('canJoin'){{ 'false' }}@endslot
           @slot('canEdit'){{ 'false' }}@endslot
-          @foreach($group->members as $member)
-            @if ($group->owner->id === Auth::id())
-              @slot('canEdit'){{ "true" }}@endslot
-            @endif
-          @endforeach
+          @if ($group->owner->id === Auth::id())
+            @slot('canEdit'){{ "true" }}@endslot
+          @endif
           @slot('name'){{ $group->name }}@endslot
           @slot('id'){{ $group->id }}@endslot
           @slot('description'){{ $group->description }}@endslot
