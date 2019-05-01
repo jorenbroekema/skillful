@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /* phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace */
-class CreateWorkshopsTable extends Migration
+class CreateSkillsCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,25 +14,20 @@ class CreateWorkshopsTable extends Migration
      */
     public function up()
     {
-        Schema::create('workshops', function (Blueprint $table) {
+        Schema::create('skills_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->text('description');
-            $table->integer('difficulty');
-            $table->unsignedInteger('owner_id')->default(0);
-            $table->datetime('start_date');
-            $table->datetime('end_date');
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
 
-    /*
+    /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('workshops');
+        Schema::dropIfExists('skills_categories');
     }
 }

@@ -11,6 +11,8 @@ $factory->define(App\Workshop::class, function (Faker $faker) {
         'title' => $faker->jobTitle.' workshop',
         'description' => $faker->paragraph($nbSentences = 3),
         'difficulty' => $faker->numberBetween($min = 1, $max = 3),
+        'start_date' => $createdAndUpdate,
+        'end_date' => $createdAndUpdate,
         'created_at' => $createdAndUpdate,
         'updated_at' => $createdAndUpdate,
     ];

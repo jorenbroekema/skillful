@@ -22,17 +22,17 @@
           <div class="col date date--start">
             <div class="date__heading text-uppercase h6">Start date</div>
             <div class="date__card shadow p-4 bg-white rounded">
-              <div class="h4 bold"><strong>08</strong></div>
-              <div>Jun 18</div>
-              <div class="mt-2"><em>13:00</em></div>
+              <div class="h4 bold"><strong>{{ (new DateTime($start_date))->format('d') }}</strong></div>
+              <div>{{ (new DateTime($start_date))->format('F') }}</div>
+              <div class="mt-2"><em>{{ (new DateTime($start_date))->format('H:i A') }}</em></div>
             </div>
           </div>
           <div class="col date date--end">
             <div class="date__heading text-uppercase h6">End date</div>
             <div class="date__card shadow p-4 bg-white rounded">
-              <div class=" h4 bold"><strong>08</strong></div>
-              <div>Jun 18</div>
-              <div class="mt-2"><em>16:00</em></div>
+              <div class="h4 bold"><strong>{{ (new DateTime($end_date))->format('d') }}</strong></div>
+              <div>{{ (new DateTime($end_date))->format('F') }}</div>
+              <div class="mt-2"><em>{{ (new DateTime($end_date))->format('H:i A') }}</em></div>
             </div>
           </div>
         </div>
@@ -105,6 +105,52 @@
               aria-describedby="workshopDescHelp"
               rows="3"
             >{{ $description }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="workshop-form__workshopDiff">Workshop Difficulty</label>
+            <select
+              id="workshop-form__workshopDiff"
+              class="form-control"
+              type="textarea"
+              name="difficulty"
+              placeholder="Enter workshop difficulty"
+              aria-describedby="workshopDiffHelp"
+            >
+              <option value=""></option>
+              <option value="1"
+                {{ $difficulty->__toString() === '1' ? 'selected' : '' }}
+              >Novice</option>
+              <option value="2"
+                {{ $difficulty->__toString() === '2' ? 'selected' : '' }}
+              >Intermediate</option>
+              <option value="3"
+                {{ $difficulty->__toString() === '3' ? 'selected' : '' }}
+              >Advanced</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="workshop-form__workshopDesc">Start Date</label>
+            <input
+              id="workshop-form__workshopStart"
+              class="form-control"
+              type="datetime_local"
+              name="start_date"
+              placeholder="Enter start date"
+              aria-describedby="workshopStartHelp"
+              value="{{ $start_date }}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="workshop-form__workshopDesc">End Date</label>
+            <input
+              id="workshop-form__workshopEnd"
+              class="form-control"
+              type="datetime_local"
+              name="end_date"
+              placeholder="Enter end date"
+              aria-describedby="workshopEndHelp"
+              value="{{ $end_date }}"
+            />
           </div>
         </div>
         <div class="modal-footer">

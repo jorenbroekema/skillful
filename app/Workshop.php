@@ -27,7 +27,7 @@ class Workshop extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     // TODO: Has one or more categories / tags (could be JSON or another model)
