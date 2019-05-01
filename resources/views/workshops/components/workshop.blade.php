@@ -40,9 +40,23 @@
       <div class="col-md-auto align-self-end">
         <div class="d-flex flex-column align-items-end mt-3">
           <div class="d-flex align-items-end">
-            <div class="bg-warning ml-1" style="width: 10px; height: 10px; border-radius: 5px;"></div>
-            <div class="bg-warning ml-1" style="width: 10px; height: 20px; border-radius: 5px;"></div>
-            <div class="bg-secondary ml-1" style="width: 10px; height: 30px; border-radius: 5px;"></div>
+            @switch ($difficulty)
+              @case('1')
+                <div class="bg-success ml-1" style="width: 10px; height: 10px; border-radius: 5px;"></div>
+                <div class="bg-secondary ml-1" style="width: 10px; height: 20px; border-radius: 5px;"></div>
+                <div class="bg-secondary ml-1" style="width: 10px; height: 30px; border-radius: 5px;"></div>
+                @break
+              @case ('2')
+                <div class="bg-warning ml-1" style="width: 10px; height: 10px; border-radius: 5px;"></div>
+                <div class="bg-warning ml-1" style="width: 10px; height: 20px; border-radius: 5px;"></div>
+                <div class="bg-secondary ml-1" style="width: 10px; height: 30px; border-radius: 5px;"></div>
+                @break
+              @case ('3')
+                <div class="bg-danger ml-1" style="width: 10px; height: 10px; border-radius: 5px;"></div>
+                <div class="bg-danger ml-1" style="width: 10px; height: 20px; border-radius: 5px;"></div>
+                <div class="bg-danger ml-1" style="width: 10px; height: 30px; border-radius: 5px;"></div>
+                @break
+            @endswitch
           </div>
           @if (Auth::check())
             <div class="participate-button mt-4">
@@ -133,11 +147,11 @@
             <input
               id="workshop-form__workshopStart"
               class="form-control"
-              type="datetime_local"
+              type="datetime-local"
               name="start_date"
               placeholder="Enter start date"
               aria-describedby="workshopStartHelp"
-              value="{{ $start_date }}"
+              value="{{ str_replace(' ', 'T', $start_date) }}"
             />
           </div>
           <div class="form-group">
@@ -145,11 +159,11 @@
             <input
               id="workshop-form__workshopEnd"
               class="form-control"
-              type="datetime_local"
+              type="datetime-local"
               name="end_date"
               placeholder="Enter end date"
               aria-describedby="workshopEndHelp"
-              value="{{ $end_date }}"
+              value="{{ str_replace(' ', 'T', $end_date) }}"
             />
           </div>
         </div>

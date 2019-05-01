@@ -42,7 +42,13 @@
       @if(isset($groups['ownGroups']) && $groups['ownGroups'])
       @foreach ($groups['ownGroups'] as $group)
         @component('groups.components.group')
-          @slot('canEdit'){{ 'true' }}@endslot
+          @slot('canJoin'){{ 'false' }}@endslot
+          @slot('canEdit'){{ 'false' }}@endslot
+          @foreach($group->members as $member)
+            @if ($group->owner->id === Auth::id())
+              @slot('canEdit'){{ "true" }}@endslot
+            @endif
+          @endforeach
           @slot('name'){{ $group->name }}@endslot
           @slot('id'){{ $group->id }}@endslot
           @slot('description'){{ $group->description }}@endslot
@@ -59,6 +65,12 @@
       <h3>All Groups</h3>
       @foreach ($groups['allGroups'] as $group)
         @component('groups.components.group')
+          @slot('canJoin'){{ "true" }}@endslot
+          @foreach($group->members as $member)
+            @if ($member->id === Auth::id())
+              @slot('canJoin'){{ "false" }}@endslot
+            @endif
+          @endforeach
           @slot('canEdit'){{ "false" }}@endslot
           @slot('name'){{ $group->name }}@endslot
           @slot('id'){{ $group->id }}@endslot

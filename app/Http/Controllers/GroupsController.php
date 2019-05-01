@@ -18,8 +18,8 @@ class GroupsController extends Controller
         $groups = [
             'allGroups' => Group::all(),
             'ownGroups' => Auth::check() ? Auth::user()->groups()->get() : [],
+            'ownedGroups' => Auth::check() ? Auth::user()->ownedGroups()->get() : [],
         ];
-
         return view('groups.index', compact('groups'));
     }
 

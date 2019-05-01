@@ -1,13 +1,23 @@
 <div class="card mb-4">
   <div class="card-header">
     <a style="line-height: 36px;" href="/groups/{{ $id }}">{{ $name }}</a>
-    @if($canEdit == "true")
-      <button
-        class="float-right btn btn-primary"
-        data-toggle="modal"
-        data-target="#groupEditModal-{{ $id }}"
-      >Edit</button>
-    @endif
+    <div class="float-right">
+      @if ($canEdit == "true")
+        <button
+          class="btn btn-secondary"
+          data-toggle="modal"
+          data-target="#groupEditModal-{{ $id }}"
+        >Edit</button>
+      @endif
+      @if ($canJoin == "true")
+      <form style="display:inline;" method="POST" action="/members/{{ Auth::id() }}">
+        @method('PATCH')
+        @csrf
+        <input type="hidden" name="group" value="{{ $id }}">
+        <button class="btn btn-primary" onclick="this.form.submit()">Join</button>
+      </form>
+      @endif
+    </div>
   </div>
   <div class="card-body">
     <div class="mb-2">

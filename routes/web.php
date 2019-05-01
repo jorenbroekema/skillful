@@ -31,3 +31,5 @@ Route::delete('participants/{participant}', 'WorkshopParticipantsController@remo
  * Group related controllers
  */
 Route::resource('groups', 'GroupsController');
+Route::patch('members/{member}', 'GroupMembersController@addMember');
+Route::delete('members/{member}', 'GroupMembersController@removeMember');
