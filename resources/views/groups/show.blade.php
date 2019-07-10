@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style="max-width: 36rem;">
-  <div class="row">
-    <h1 class="col mb-4">Group info</h1>
+<div class="container">
+  <div class="row justify-content-center">
+    <h1 class="col-md-8 mb-4">Group info</h1>
   </div>
 
-  <div class="row">
-    <div class="col">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
     @component('groups.components.group')
       @slot('canEdit'){{ "false" }}@endslot
       @if ($group->owner->id === Auth::id())
@@ -25,8 +25,8 @@
     @endcomponent
     </div>
   </div>
-  <div class="row mb-4">
-    <div class="col">
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
       Owner: {{ $group->owner->name }}
     </div>
   </div>
@@ -45,20 +45,9 @@
     @endif
   @endforeach
 
-
-  <div class="row justify-content-between danger-divider pt-4">
-    <div class="col-8">
-      <strong>Delete this group</strong>
-      <p>Once you delete this group, there is no going back. Please be certain.</p>
-    </div>
-    <div class="col">
-      <button
-        class="float-right btn btn-danger"
-        data-toggle="modal"
-        data-target="#groupDeleteModal"
-      >Delete group</button>
-    </div>
-  </div>
+  @component('components.danger-zone')
+    @slot('entity'){{ 'group' }}@endslot
+  @endcomponent
 </div>
 
 <div class="modal fade" id="groupDeleteModal" tabindex="-1" role="dialog" aria-labelledby="groupDeleteModalLabel" aria-hidden="true">

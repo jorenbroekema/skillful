@@ -1,43 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style="max-width: 36rem;">
-  <div class="row">
-    <h1 class="col mb-4">Workshop info</h1>
+<div class="container">
+  <div class="row justify-content-center">
+    <h1 class="col-md-8">Workshop info</h1>
   </div>
 
-  <div class="row">
-    <div class="col">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
     @component('workshops.components.workshop')
       @slot('canEdit'){{ "true" }}@endslot
       @slot('title'){{ $workshop->title }}@endslot
       @slot('id'){{ $workshop->id }}@endslot
       @slot('description'){{ $workshop->description }}@endslot
+      @slot('difficulty'){{ $workshop->difficulty }}@endslot
+      @slot('start_date'){{ $workshop->start_date }}@endslot
+      @slot('end_date'){{ $workshop->end_date }}@endslot
       @slot('isParticipating')
         {{ $workshop->users()->get()->contains(Auth::user()) ? 'true' : 'false' }}
       @endslot
     @endcomponent
     </div>
   </div>
-  <div class="row mb-4">
-    <div class="col">
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
       Owner: {{ $workshop->owner->name }}
     </div>
   </div>
-
-  <div class="row justify-content-between danger-divider pt-4">
-    <div class="col-8">
-      <strong>Delete this workshop</strong>
-      <p>Once you delete this workshop, there is no going back. Please be certain.</p>
-    </div>
-    <div class="col">
-      <button
-        class="float-right btn btn-danger"
-        data-toggle="modal"
-        data-target="#workshopDeleteModal"
-      >Delete workshop</button>
-    </div>
-  </div>
+  @component('components.danger-zone')
+    @slot('entity'){{ 'workshop' }}@endslot
+  @endcomponent
 </div>
 
 <div class="modal fade" id="workshopDeleteModal" tabindex="-1" role="dialog" aria-labelledby="workshopDeleteModalLabel" aria-hidden="true">
