@@ -23,7 +23,7 @@
 
 <body>
   <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+    <nav class="sticky-top navbar navbar-expand-md navbar-light navbar-laravel">
       <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
           {{ config('app.name', 'Laravel') }}
@@ -89,6 +89,14 @@
     <main class="py-4">
       @yield('content')
     </main>
+
+    <footer class="footer-laravel p-2">
+      <ul class="mx-auto footer-list">
+        <li><a href="/feedback">Let us know what you think!</a></li>
+        <li><a href="/bug">Report a bug</a></li>
+      </ul>
+      <small class="footer-desc">This is a demo version, very much work in progress. Thanks for testing it!</small>
+    </footer>
   </div>
 </body>
 

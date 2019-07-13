@@ -10495,9 +10495,50 @@ body {
   line-height: normal;
 }
 
+.sticky-bottom {
+  position: sticky;
+  position: -webkit-sticky;
+  bottom: 0;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.footer-laravel {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.footer-list {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .footer-list {
+    flex-direction: column;
+  }
+}
+
+.footer-list li {
+  padding: 10px 20px;
+}
+
+.footer-desc {
+  margin: 0 auto;
+  text-align: center;
+  display: block;
 }
 
 .navbar-brand {
@@ -10510,6 +10551,14 @@ body {
 
 .card .participate-button {
   align-self: flex-end;
+}
+
+.list-group {
+  list-style: none;
+}
+
+.list-group-horizontal {
+  flex-direction: row;
 }
 
 /* WORKSHOP DATE IN CARD */
