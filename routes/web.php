@@ -19,6 +19,16 @@ Auth::routes();
 
 Route::get('', 'HomeController@index');
 
+Route::get('/bug', function () {
+    return view('bug');
+});
+Route::post('bug', 'BugController@addBug');
+
+Route::get('/feedback', function () {
+    return view('feedback');
+});
+Route::post('feedback', 'FeedbackController@addFeedback');
+
 
 /**
  * Workshop related controllers
