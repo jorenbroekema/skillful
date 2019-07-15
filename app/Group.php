@@ -11,7 +11,7 @@ class Group extends Model
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id', 'owner_id', 'created_at', 'updated_at'];
 
     /**
      * Relation belongsTo

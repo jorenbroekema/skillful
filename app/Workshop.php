@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Workshop extends Model
 {
-    protected $guarded = [''];
+    protected $guarded = ['id', 'owner_id', 'created_at', 'updated_at'];
 
     /**
      * Relation belongsTo

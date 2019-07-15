@@ -11,7 +11,7 @@ class Feedback extends Model
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = ['name', 'feedback'];
 
     /**
      * Relation belongsTo

@@ -8,10 +8,11 @@ class SkillsCategory extends Model
 {
     /**
      * The attributes that are not mass assignable.
+     * By default, skill categories are not malleable by users.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [];
 
     /**
      * Relation hasMany

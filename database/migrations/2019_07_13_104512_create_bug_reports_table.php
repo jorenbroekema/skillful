@@ -17,6 +17,7 @@ class CreateBugReportsTable extends Migration
         Schema::create('bug_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('author_id')->default(0);
+            $table->string('name')->default('');
             $table->string('url');
             $table->text('description');
             $table->timestamps();

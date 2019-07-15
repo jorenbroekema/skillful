@@ -8,10 +8,11 @@ class Skill extends Model
 {
     /**
      * The attributes that are not mass assignable.
+     * By default, skills are not malleable by users.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [];
 
     /**
      * Relation belongsTo

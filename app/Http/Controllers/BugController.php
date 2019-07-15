@@ -17,6 +17,7 @@ class BugController extends Controller
     public function addBug(Request $request)
     {
         $attributes = $request->validate([
+            'name' => [],
             'url' => ['required'],
             'description' => ['required', 'min:10'],
         ]);

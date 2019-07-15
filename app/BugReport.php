@@ -11,7 +11,7 @@ class BugReport extends Model
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = ['name', 'url', 'description'];
 
     /**
      * Relation belongsTo
