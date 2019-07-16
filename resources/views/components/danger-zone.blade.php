@@ -11,7 +11,7 @@
         <button
           class="float-right btn btn-danger"
           data-toggle="modal"
-          data-target="#workshopDeleteModal"
+          data-target="#{{ $entity }}DeleteModal"
         >Delete {{ $entity }}</button>
       </div>
     </div>

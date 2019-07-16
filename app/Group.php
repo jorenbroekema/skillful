@@ -34,4 +34,9 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
+
+    public function workshops()
+    {
+        return $this->hasMany(Workshop::class);
+    }
 }

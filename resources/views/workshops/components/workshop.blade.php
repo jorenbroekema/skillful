@@ -1,7 +1,7 @@
 <div class="card mb-4">
   <div class="card-header">
     <a style="line-height: 36px;" href="/workshops/{{ $id }}">{{ $title }}</a>
-    @if($canEdit == "true")
+    @if($canEdit == 'true')
       <button
         class="float-right btn btn-secondary"
         data-toggle="modal"
@@ -12,7 +12,7 @@
   <div class="card-body">
     <div>{{ $description }}</div>
     <div class="mt-2">
-      By: <a href="#">Joren Broekema</a>
+      By: <a href="#">{{ $owner }}</a>
     </div>
   </div>
   <div class="card-body">
@@ -60,6 +60,7 @@
           </div>
           @if (Auth::check())
             <div class="participate-button mt-4">
+              <!-- TODO: Add check for isOwner to remove the button altogether -->
               @if ($isParticipating == 'false')
                 <form method="POST" action="/participants/{{ Auth::id() }}">
                   @method('PATCH')

@@ -12,6 +12,7 @@
           @slot('canEdit'){{ 'true' }}@endslot
           @slot('title'){{ $workshop->title }}@endslot
           @slot('id'){{ $workshop->id }}@endslot
+          @slot('owner'){{ $workshop->owner->name }}@endslot
           @slot('description'){{ $workshop->description }}@endslot
           @slot('difficulty'){{ $workshop->difficulty }}@endslot
           @slot('start_date'){{ $workshop->start_date }}@endslot

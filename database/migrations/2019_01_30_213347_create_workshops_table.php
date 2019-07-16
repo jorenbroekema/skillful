@@ -20,6 +20,8 @@ class CreateWorkshopsTable extends Migration
             $table->text('description');
             $table->integer('difficulty');
             $table->unsignedInteger('owner_id')->default(0);
+            $table->unsignedInteger('group_id')->default(0)->nullable();
+            $table->boolean('public')->default(false);
             $table->datetime('start_date');
             $table->datetime('end_date');
             $table->timestamps();

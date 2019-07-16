@@ -29,6 +29,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Function to check if user owns an instance of a model
+     *
+     * @return Boolean whether model instance is owned by the user.
+     */
+    public function owns($model, $column_name = 'owner_id')
+    {
+        return $this->id === $model->$column_name;
+    }
+
+    /**
      * Relation hasMany
      * The workshops that are owned by the users
      *

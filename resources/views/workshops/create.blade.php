@@ -67,6 +67,37 @@
             aria-describedby="workshopEndHelp"
           />
         </div>
+        @if (auth()->user() && auth()->user()->groups->count() > 0)
+          <div class="form-group">
+            <label for="workshop-form__workshopGroup">Workshop group</label>
+            <select
+              id="workshop-form__workshopGroup"
+              class="form-control"
+              type="textarea"
+              name="group"
+              placeholder="Enter workshop group"
+              aria-describedby="workshopGroupHelp"
+            >
+              @foreach (auth()->user()->groups as $group)
+                <!-- TODO: if create workshop was selected from group view, put that group as the first option -->
+                <option value="{{ $group->id }}">{{ $group->name }}</option>
+              @endforeach
+            </select>
+          </div>
+        @endif
+        <div class="form-check mb-3">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="workshop-form__workshopPublic"
+            name="public"
+            @if (auth()->user() && auth()->user()->groups->count() === 0)
+              checked disabled
+            @endif
+          >
+          <!-- TODO: Add tippy with extra info. Also make extra info for when it is disabled, to explain why "you are not in any group, so you can only make public workshops" -->
+          <label class="form-check-label" for="workshop-form__workshopPublic">Public (everyone can view and request to join this workshop)</label>
+        </div>
         <div class="form-group">
           <button class="btn btn-primary" type="submit">Create Workshop</button>
         </div>

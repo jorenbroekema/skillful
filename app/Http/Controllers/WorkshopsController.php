@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Group;
 use App\Workshop;
 use Illuminate\Http\Request;
 
 class WorkshopsController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Workshop::class, 'workshop');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +30,8 @@ class WorkshopsController extends Controller
      */
     public function create()
     {
+        // FIXME: this doesn't work for some reason.... always unauthorized
+        // $this->authorize('create');
         return view('workshops.create');
     }
 
@@ -37,8 +44,19 @@ class WorkshopsController extends Controller
     public function store(Request $request)
     {
         $attributes = $this->validateRequest($request);
+
         $workshop = Workshop::create($attributes);
+        $workshop->public = $request->get('public') === 'on' ? true : false;
         $workshop->owner()->associate(auth()->user());
+
+        // If a group was given, set it. Else, set the id to 0.
+        // TODO: Consider making nullable instead so this check is not necessary
+        if ($request->get('group')) {
+            $group = Group::where('id', $request->get('group'))->first();
+            $workshop->group()->associate($group);
+        } else {
+            $workshop->group_id = 0;
+        }
         $workshop->save();
 
         return redirect('/workshops');
@@ -52,18 +70,8 @@ class WorkshopsController extends Controller
      */
     public function show(Workshop $workshop)
     {
+        // $this->authorize('view', $workshop);
         return view('workshops.show', compact('workshop'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Workshop  $workshop
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Workshop $workshop)
-    {
-        return view('workshops.edit', compact('workshop'));
     }
 
     /**
@@ -75,6 +83,7 @@ class WorkshopsController extends Controller
      */
     public function update(Request $request, Workshop $workshop)
     {
+        // $this->authorize('update', $workshop);
         $workshop->update($this->validateRequest($request));
         return redirect('/workshops');
     }
