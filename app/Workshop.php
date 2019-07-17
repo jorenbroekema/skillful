@@ -47,8 +47,8 @@ class Workshop extends Model
      * belongsTo (default) or belongsToMany relationship, defined by the second parameter.
      *
      * @param mixed Some model instance which has a group() or groups() relationship.
-     * @param boolean Plural, whether the first argument has one or multiple groups to check for.
-     * @return boolean Whether something shares a group with this workshop instance.
+     * @param Boolean Plural, whether the first argument has one or multiple groups to check for.
+     * @return Boolean Whether something shares a group with this workshop instance.
      */
     public function sharesGroupWith($something, bool $plural = false)
     {

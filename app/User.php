@@ -29,6 +29,19 @@ class User extends Authenticatable
     ];
 
     /**
+     * isSuperAdmin to check if the user is the super admin
+     *
+     * @return Boolean whether the current user is super admin
+     */
+    public function isSuperUser()
+    {
+        if ($this->name === env('APP_ADMIN_USER')) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Function to check if user owns an instance of a model
      *
      * @return Boolean whether model instance is owned by the user.

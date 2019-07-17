@@ -27,6 +27,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::before(function (User $user) {
+            return $user->isSuperUser();
+        });
+
         // Whether user is allowed to participate or unlist from a given workshop
         // TODO: In the future, probably will be 'request to join' as well as adding something so that owners and
         // moderators can kick people from the participation list.
