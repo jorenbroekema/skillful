@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\User;
+use App\Workshop;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -25,6 +27,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Whether user is allowed to participate or unlist from a given workshop
+        // TODO: In the future, probably will be 'request to join' as well as adding something so that owners and
+        // moderators can kick people from the participation list.
+        Gate::define('participating', function (User $user, Workshop $workshop) {
+            if ($workshop->public || $workshop->sharesGroupWith($user, true)) {
+                return true;
+            }
+            return false;
+        });
     }
 }
