@@ -19,7 +19,7 @@ class WorkshopsController extends Controller
      */
     public function index()
     {
-        $workshops = Workshop::all();
+        $workshops = $this->customSortAllWorkshops();
         return view('workshops.index', compact('workshops'));
     }
 
@@ -30,8 +30,6 @@ class WorkshopsController extends Controller
      */
     public function create()
     {
-        // FIXME: this doesn't work for some reason.... always unauthorized
-        // $this->authorize('create');
         return view('workshops.create');
     }
 
@@ -49,14 +47,9 @@ class WorkshopsController extends Controller
         $workshop->public = $request->get('public') === 'on' ? true : false;
         $workshop->owner()->associate(auth()->user());
 
-        // If a group was given, set it. Else, set the id to 0.
-        // TODO: Consider making nullable instead so this check is not necessary
-        if ($request->get('group')) {
-            $group = Group::where('id', $request->get('group'))->first();
-            $workshop->group()->associate($group);
-        } else {
-            $workshop->group_id = 0;
-        }
+        $group = Group::where('id', $request->get('group'))->first();
+        $workshop->group()->associate($group);
+
         $workshop->save();
 
         return redirect('/workshops');
@@ -118,5 +111,41 @@ class WorkshopsController extends Controller
         ];
 
         return $request->validate($validationCriteria);
+    }
+
+    private function customSortAllWorkshops()
+    {
+        // TODO: Sort by closest start_date first
+        $allWorkshops = Workshop::all()->keyBy('id');
+        $user = auth()->user();
+        $workshops = collect();
+
+        if ($user) {
+            // Add owned workshops
+            $user->ownedWorkshops()->get()->each(
+                function ($workshop) use ($allWorkshops, $user, $workshops) {
+                    $workshopToAdd = $allWorkshops->pull($workshop->id);
+                    $workshops->push($workshopToAdd);
+                }
+            );
+
+            // Add workshops in your group
+            $allWorkshops->each(
+                function ($workshop) use ($allWorkshops, $user, $workshops) {
+                    if ($workshop->sharesGroupWith($user, true)) {
+                        $workshopToAdd = $allWorkshops->pull($workshop->id);
+                        $workshops->push($workshopToAdd);
+                    }
+                }
+            );
+        }
+
+        $allWorkshops->each(
+            function ($workshop) use ($workshops) {
+                $workshops->push($workshop);
+            }
+        );
+
+        return $workshops;
     }
 }

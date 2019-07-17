@@ -98,6 +98,38 @@
           <!-- TODO: Add tippy with extra info. Also make extra info for when it is disabled, to explain why "you are not in any group, so you can only make public workshops" -->
           <label class="form-check-label" for="workshop-form__workshopPublic">Public (everyone can view and request to join this workshop)</label>
         </div>
+        <div class="form-check mb-3">
+          <input
+            onchange="
+              const publicCheckbox = this.parentElement.previousElementSibling.firstElementChild;
+              const groupSelect =
+                this.parentElement.previousElementSibling.previousElementSibling.firstElementChild.nextElementSibling;
+
+              if (!publicCheckbox.disabled || this.lockedByClient) {
+                if (this.checked) {
+                  publicCheckbox.checked = true;
+                  publicCheckbox.disabled = true;
+                  groupSelect.disabled = true;
+                  this.groupSelectedIndex = groupSelect.selectedIndex;
+                  groupSelect.selectedIndex = -1;
+                  this.lockedByClient = true;
+                } else {
+                  publicCheckbox.checked = false;
+                  publicCheckbox.disabled = false;
+                  groupSelect.disabled = false;
+                  groupSelect.selectedIndex = this.groupSelectedIndex;
+                }
+              }
+            "
+            type="checkbox"
+            class="form-check-input"
+            id="workshop-form__workshopGroupless"
+            @if (auth()->user() && auth()->user()->groups->count() === 0)
+              checked disabled
+            @endif
+          >
+          <label class="form-check-label" for="workshop-form__workshopGroupless">Groupless (workshop belongs to public domain)</label>
+        </div>
         <div class="form-group">
           <button class="btn btn-primary" type="submit">Create Workshop</button>
         </div>

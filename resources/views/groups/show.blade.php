@@ -32,8 +32,8 @@
   </div>
   @foreach($group->members as $member)
     @if ($member->id === Auth::id() && $group->owner->id !== Auth::id())
-      <div class="row mb-4">
-        <div class="col">
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
           <form method="POST" action="/members/{{ Auth::id() }}">
             @method('DELETE')
             @csrf

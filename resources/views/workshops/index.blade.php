@@ -8,19 +8,13 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       @foreach ($workshops as $workshop)
-        @component('workshops.components.workshop')
-          @slot('canEdit'){{ 'true' }}@endslot
-          @slot('title'){{ $workshop->title }}@endslot
-          @slot('id'){{ $workshop->id }}@endslot
-          @slot('owner'){{ $workshop->owner->name }}@endslot
-          @slot('description'){{ $workshop->description }}@endslot
-          @slot('difficulty'){{ $workshop->difficulty }}@endslot
-          @slot('start_date'){{ $workshop->start_date }}@endslot
-          @slot('end_date'){{ $workshop->end_date }}@endslot
-          @slot('isParticipating')
-            {{ $workshop->users()->get()->contains(Auth::user()) ? 'true' : 'false' }}
-          @endslot
-        @endcomponent
+        @if ($workshop->public ||
+             $workshop->sharesGroupWith(Auth::user(), true) ||
+             Auth::user()->isSuperUser()
+        )
+          @component('workshops.components.workshop', ['workshop' => $workshop])
+          @endcomponent
+        @endif
       @endforeach
     </div>
   </div>
