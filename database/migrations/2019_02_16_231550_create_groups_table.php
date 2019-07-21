@@ -19,6 +19,7 @@ class CreateGroupsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->unsignedInteger('owner_id')->default(0);
+            $table->boolean('public')->default(true);
             $table->timestamps();
         });
     }

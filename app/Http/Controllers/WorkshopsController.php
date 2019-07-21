@@ -12,6 +12,7 @@ class WorkshopsController extends Controller
     {
         $this->authorizeResource(Workshop::class, 'workshop');
     }
+
     /**
      * Display a listing of the resource.
      *

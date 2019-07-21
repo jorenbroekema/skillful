@@ -32,14 +32,15 @@ class WorkshopPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(?User $user)
+    public function create(User $user)
     {
         // If there is a request for creating a workshop, for a group that the user is not a member of, block it.
         // Prevents people editing the group id value in the form to a group id that they have no authorization for.
-        if (!$user ||
-            (request() && !$user->groups()->get()->contains(Group::where('id', request()->get('group'))->first()))
-        ) {
-            return false;
+        if (request()->filled('group')) {
+            $workshopGroup = Group::where('id', request()->get('group'))->first();
+            if (!($user->groups->contains($workshopGroup))) {
+                return false;
+            }
         }
         return true;
     }

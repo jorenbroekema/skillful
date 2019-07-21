@@ -8,21 +8,7 @@
 
   <div class="row justify-content-center">
     <div class="col-md-8">
-    @component('groups.components.group')
-      @slot('canEdit'){{ "false" }}@endslot
-      @if ($group->owner->id === Auth::id())
-        @slot('canEdit'){{ "true" }}@endslot
-      @endif
-      @slot('canJoin'){{ "true" }}@endslot
-      @foreach($group->members as $member)
-        @if ($member->id === Auth::id())
-          @slot('canJoin'){{ "false" }}@endslot
-        @endif
-      @endforeach
-      @slot('name'){{ $group->name }}@endslot
-      @slot('id'){{ $group->id }}@endslot
-      @slot('description'){{ $group->description }}@endslot
-    @endcomponent
+      @component('groups.components.group', ['group' => $group])@endcomponent
     </div>
   </div>
   <div class="row justify-content-center mb-4">
@@ -45,9 +31,11 @@
     @endif
   @endforeach
 
-  @component('components.danger-zone')
-    @slot('entity'){{ 'group' }}@endslot
-  @endcomponent
+  @if (Auth::user()->id === $group->owner->id)
+    @component('components.danger-zone')
+      @slot('entity'){{ 'group' }}@endslot
+    @endcomponent
+  @endif
 </div>
 
 <div class="modal fade" id="groupDeleteModal" tabindex="-1" role="dialog" aria-labelledby="groupDeleteModalLabel" aria-hidden="true">

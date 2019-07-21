@@ -16,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Workshop' => 'App\Policies\WorkshopPolicy',
+        'App\Group' => 'App\Policies\GroupPolicy',
     ];
 
     /**
@@ -28,7 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function (User $user) {
-            return $user->isSuperUser();
+            if ($user->isSuperUser()) {
+                return true;
+            }
         });
 
         // Whether user is allowed to participate or unlist from a given workshop
