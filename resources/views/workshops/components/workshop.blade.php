@@ -9,7 +9,7 @@
         <span class="badge badge-secondary">public</span>
       @endif
     </a>
-    @if(Auth::user()->owns($workshop) || Auth::user()->isSuperUser())
+    @if(Auth::user() && (Auth::user()->owns($workshop) || Auth::user()->isSuperUser()))
       <button
         class="float-right btn btn-secondary"
         data-toggle="modal"
@@ -53,6 +53,7 @@
       <div class="col-md-auto align-self-end">
         <div class="d-flex flex-column align-items-end mt-3">
           <div class="d-flex align-items-end">
+            <!-- TODO: DRY.. -->
             @switch ($workshop->difficulty)
               @case(1)
                 <div class="bg-success ml-1" style="width: 10px; height: 10px; border-radius: 5px;"></div>
@@ -96,7 +97,7 @@
   </div>
 </div>
 
-@if(Auth::user()->owns($workshop) || Auth::user()->isSuperUser())
+@if(Auth::user() && (Auth::user()->owns($workshop) || Auth::user()->isSuperUser()))
 <!-- Edit Modal -->
 <div class="modal fade" id="workshopEditModal-{{ $workshop->id }}" tabindex="-1" role="dialog" aria-labelledby="workshopEditModalLabel-{{ $workshop->id }}" aria-hidden="true">
   <div class="modal-dialog" role="document">
