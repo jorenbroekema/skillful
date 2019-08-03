@@ -11,12 +11,16 @@
           >Edit</button>
         @endif
         <!-- TODO: Change to "leave" button if user is already in group -->
-
         <form style="display:inline;" method="POST" action="/members/{{ Auth::id() }}">
-          @method('PATCH')
           @csrf
           <input type="hidden" name="group" value="{{ $group->id }}">
-          <button class="btn btn-primary" onclick="this.form.submit()">Join</button>
+          @if ($group->members()->get()->contains(Auth::user()))
+            @method('DELETE')
+            <button class="btn btn-danger" onclick="this.form.submit()">Leave</button>
+          @else
+            @method('PATCH')
+            <button class="btn btn-primary" onclick="this.form.submit()">Join</button>
+          @endif
         </form>
       </div>
     @endif
