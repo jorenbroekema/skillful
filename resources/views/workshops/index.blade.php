@@ -9,9 +9,10 @@
     <div class="col-md-8">
       @foreach ($workshops as $workshop)
         @if ($workshop->public ||
-             $workshop->sharesGroupWith(Auth::user(), true) ||
-             Auth::user()->isSuperUser()
-        )
+          (Auth::user() &&
+              ($workshop->sharesGroupWith(Auth::user(), true) ||
+                Auth::user()->isSuperUser())
+          ))
           @component('workshops.components.workshop', ['workshop' => $workshop])
           @endcomponent
         @endif

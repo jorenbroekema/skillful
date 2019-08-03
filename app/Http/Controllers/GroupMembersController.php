@@ -14,7 +14,9 @@ class GroupMembersController extends Controller
         $group = Group::find($request->group);
         $member = Auth::user();
 
-        $group->members()->save($member);
+        if (!$group->members()->get()->contains($member)) {
+            $group->members()->save($member);
+        }
 
         $lastCharOriginURL = substr($request->header('referer'), -1);
         $originatesFromShow = is_numeric($lastCharOriginURL);
@@ -26,7 +28,10 @@ class GroupMembersController extends Controller
     {
         $group = Group::find($request->group);
         $member = Auth::user();
-        $group->members()->detach($member);
+
+        if ($group->members()->get()->contains($member)) {
+            $group->members()->detach($member);
+        }
 
         $lastCharOriginURL = substr($request->header('referer'), -1);
         $originatesFromShow = is_numeric($lastCharOriginURL);
