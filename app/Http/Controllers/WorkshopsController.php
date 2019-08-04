@@ -53,7 +53,7 @@ class WorkshopsController extends Controller
 
         $workshop->save();
 
-        return redirect('/workshops');
+        return redirect('/workshops')->with('success', 'You have created the workshop '.$workshop->title.'!');
     }
 
     /**
@@ -79,7 +79,8 @@ class WorkshopsController extends Controller
     {
         // $this->authorize('update', $workshop);
         $workshop->update($this->validateRequest($request));
-        return redirect('/workshops');
+        return redirect('/workshops/'.$workshop->id)
+            ->with('success', 'You have edited the workshop '.$workshop->name.'!');
     }
 
     /**
@@ -91,8 +92,7 @@ class WorkshopsController extends Controller
     public function destroy(Workshop $workshop)
     {
         $workshop->delete();
-
-        return redirect('workshops');
+        return redirect('workshops')->withErrors(['You have deleted the workshop '.$workshop->name.'.']);
     }
 
     /**

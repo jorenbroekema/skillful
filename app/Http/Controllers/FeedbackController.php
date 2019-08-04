@@ -27,6 +27,7 @@ class FeedbackController extends Controller
         }
         $feedback->save();
 
-        return redirect('/feedback');
+        // TODO: Send an email to us so we get the feedback immediately
+        return back()->with('success', 'Thanks for sending your feedback!');
     }
 }

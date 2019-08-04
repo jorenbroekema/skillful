@@ -8,34 +8,33 @@ use Illuminate\Support\Facades\Auth;
 
 class GroupMembersController extends Controller
 {
-    // TODO: Change to DRY -> a single addOrRemove function
+    public function addOrRemoveMember(Group $group, bool $add = true)
+    {
+        $member = Auth::user();
+        $memberIsInGroup = $group->members()->get()->contains($member);
+
+        if ($add) {
+            if (!$memberIsInGroup) {
+                $group->members()->save($member);
+            }
+        } else {
+            if ($memberIsInGroup) {
+                $group->members()->detach($member);
+            }
+        }
+    }
+
     public function addMember(Request $request)
     {
         $group = Group::find($request->group);
-        $member = Auth::user();
-
-        if (!$group->members()->get()->contains($member)) {
-            $group->members()->save($member);
-        }
-
-        $lastCharOriginURL = substr($request->header('referer'), -1);
-        $originatesFromShow = is_numeric($lastCharOriginURL);
-
-        return redirect('/groups/' . ($originatesFromShow ? $lastCharOriginURL : ''));
+        $this->addOrRemoveMember($group);
+        return back()->with('success', 'You are now a member of '.$group->name.'!');
     }
 
     public function removeMember(Request $request)
     {
         $group = Group::find($request->group);
-        $member = Auth::user();
-
-        if ($group->members()->get()->contains($member)) {
-            $group->members()->detach($member);
-        }
-
-        $lastCharOriginURL = substr($request->header('referer'), -1);
-        $originatesFromShow = is_numeric($lastCharOriginURL);
-
-        return redirect('/groups/' . ($originatesFromShow ? $lastCharOriginURL : ''));
+        $this->addOrRemoveMember($group, false);
+        return back()->with('warning', 'You are no longer a member of '.$group->name.'.');
     }
 }

@@ -8,10 +8,8 @@ use Illuminate\Support\Facades\Gate;
 
 class WorkshopParticipantsController extends Controller
 {
-    private function addOrRemoveParticipant(Request $request, bool $add = true)
+    private function addOrRemoveParticipant(Workshop $workshop, bool $add = true)
     {
-        $workshop = Workshop::find($request->workshop);
-
         $participant = auth()->user();
 
         $modelAction = $add ? 'save' : 'detach';
@@ -20,21 +18,19 @@ class WorkshopParticipantsController extends Controller
         } else {
             abort(403);
         }
-
-
-        $lastCharOriginURL = substr($request->header('referer'), -1);
-        $originatesFromShow = is_numeric($lastCharOriginURL);
-
-        return redirect('/workshops/' . ($originatesFromShow ? $lastCharOriginURL : ''));
     }
 
     public function addParticipant(Request $request)
     {
-        return $this->addOrRemoveParticipant($request);
+        $workshop = Workshop::find($request->workshop);
+        $this->addOrRemoveParticipant($workshop);
+        return back()->with('success', 'You are now participating in '.$workshop->title.'!');
     }
 
     public function removeParticipant(Request $request)
     {
-        return $this->addOrRemoveParticipant($request, false);
+        $workshop = Workshop::find($request->workshop);
+        $this->addOrRemoveParticipant($workshop, false);
+        return back()->with('warning', 'You are no longer participating in '.$workshop->title.'.');
     }
 }

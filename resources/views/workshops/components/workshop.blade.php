@@ -33,7 +33,7 @@
       <div class="col-md-auto">
         <div class="row text-center">
           <div class="col date date--start">
-            <div class="date__heading text-uppercase h6">Start date</div>
+            <div class="date__heading text-uppercase h6">From</div>
             <div class="date__card shadow p-4 bg-white rounded">
               <div class="h4 bold"><strong>{{ (new DateTime($workshop->start_date))->format('d') }}</strong></div>
               <div>{{ (new DateTime($workshop->start_date))->format('F') }}</div>
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="col date date--end">
-            <div class="date__heading text-uppercase h6">End date</div>
+            <div class="date__heading text-uppercase h6">To</div>
             <div class="date__card shadow p-4 bg-white rounded">
               <div class="h4 bold"><strong>{{ (new DateTime($workshop->end_date))->format('d') }}</strong></div>
               <div>{{ (new DateTime($workshop->end_date))->format('F') }}</div>

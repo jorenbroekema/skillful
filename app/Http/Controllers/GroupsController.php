@@ -55,7 +55,7 @@ class GroupsController extends Controller
 
         // TODO: add event GroupsCreated
 
-        return redirect('/groups');
+        return redirect('/groups')->with('success', 'You have created the group '.$group->name.'!');
     }
 
     /**
@@ -90,7 +90,7 @@ class GroupsController extends Controller
     public function update(Request $request, Group $group)
     {
         $group->update($this->validateRequest($request));
-        return redirect('/groups');
+        return redirect('/groups/'.$group->id)->with('success', 'You have edited the group '.$group->name.'!');
     }
 
     /**
@@ -101,8 +101,8 @@ class GroupsController extends Controller
      */
     public function destroy(Group $group)
     {
-        $group->destroy($group->id);
-        return redirect('/groups');
+        $group->delete();
+        return redirect('/groups')->withErrors(['You have deleted the group '.$group->name.'.']);
     }
 
     /**
