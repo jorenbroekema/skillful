@@ -1,3 +1,4 @@
+// APP
 body {
   line-height: normal;
 }
@@ -22,22 +23,26 @@ body {
 }
 
 .footer-list {
-  width: max-content;
   text-align: center;
-  margin: 0 auto;
-  display: flex;
   list-style: none;
   padding: 0;
+  margin: 10px 0px;
+  display: block;
+}
+
+.footer-list li {
+  display: inline;
 }
 
 @media (max-width: 768px) {
   .footer-list {
+    display: flex;
     flex-direction: column;
   }
 }
 
 .footer-list li {
-  padding: 10px 20px;
+  margin: 5px 20px;
 }
 
 .footer-desc {
@@ -58,10 +63,16 @@ body {
   align-self: flex-end;
 }
 
+.border-width-2 {
+  border-width: 2px;
+}
+
+// TODO: See if we can remove in favor of bootstrap class
 .list-group {
   list-style: none;
 }
 
+// TODO: See if we can remove in favor of bootstrap class
 .list-group-horizontal {
   flex-direction: row;
 }
@@ -86,4 +97,16 @@ body {
 
 .date--end .date__heading {
   color: $red;
+}
+
+/* Dashboard */
+.avatar-wrapper {
+  width: $user-dashboard-avatar-dimensions;
+  height: $user-dashboard-avatar-dimensions;
+  background-image: url('../images/placeholder-ghost.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  border-width: 2px;
+  border-style: solid;
 }

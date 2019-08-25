@@ -13,12 +13,15 @@ class GroupsTableSeeder extends Seeder
     public function run()
     {
         factory(App\Group::class, 2)->create()->each(function ($group) {
-            $randomAmount = rand(1, 7);
-            $members = App\User::inRandomOrder()->take($randomAmount)->get();
-            $group->members()->saveMany($members);
-
             $owner = App\User::inRandomOrder()->first();
             $group->owner()->associate($owner)->save();
+
+            $randomAmount = rand(1, 7);
+            $members = App\User::inRandomOrder()->take($randomAmount)->get();
+            if (!$members->contains($owner)) {
+                $members->concat($owner);
+            }
+            $group->members()->saveMany($members);
         });
     }
 }

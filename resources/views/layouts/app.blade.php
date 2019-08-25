@@ -60,6 +60,9 @@
               </a>
 
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                <a class="dropdown-item" href="{{ route('workshops.create') }}">Create Workshop</a>
+                <a class="dropdown-item" href="{{ route('groups.create') }}">Create Group</a>
                 <a
                   class="dropdown-item"
                   href="{{ route('logout') }}"
@@ -68,15 +71,8 @@
                     document.getElementById('logout-form').submit();
                   "
                 >{{ __('Logout') }}</a>
-
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf
-                </form>
-                <form action="/workshops/create" method="GET">
-                  <button class="dropdown-item" onclick="this.form.submit()">Create Workshop</button>
-                </form>
-                <form action="/groups/create" method="GET">
-                  <button class="dropdown-item" onclick="this.form.submit()">Create Group</button>
                 </form>
               </div>
             </li>

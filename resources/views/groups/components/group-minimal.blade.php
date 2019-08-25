@@ -1,38 +1,36 @@
-<div class="card mb-4">
+<div class="{{ Auth::user()->owns($group) ? 'border-info border-width-2' : '' }} card mb-4">
   <div class="card-header">
-    <a style="line-height: 36px;" href="/groups/{{ $group->id }}">{{ $group->name }}</a>
-    @if (Auth::user())
-      <div class="float-right">
-        @if (Auth::user()->owns($group) || Auth::user()->isSuperUser())
-          <button
-            class="btn btn-secondary"
-            data-toggle="modal"
-            data-target="#groupEditModal-{{ $group->id }}"
-          >Edit</button>
+    <a style="line-height: 36px;" href="/groups/{{ $group->id }}">
+      {{ $group->name }}
+      @if (Auth::user()->owns($group))
+        <span class="badge badge-primary px-2">your group</span>
+      @endif
+    </a>
+    <div class="float-right">
+      @if (Auth::user()->owns($group) || Auth::user()->isSuperUser())
+        <button
+          class="btn btn-secondary"
+          data-toggle="modal"
+          data-target="#groupEditModal-{{ $group->id }}"
+        >Edit</button>
+      @endif
+      <!-- TODO: Change to "leave" button if user is already in group -->
+      <form style="display:inline;" method="POST" action="/members/{{ Auth::id() }}">
+        @csrf
+        <input type="hidden" name="group" value="{{ $group->id }}">
+        @if ($group->members()->get()->contains(Auth::user()))
+          @method('DELETE')
+          <button class="btn btn-danger" onclick="this.form.submit()">Leave</button>
+        @else
+          @method('PATCH')
+          <button class="btn btn-primary" onclick="this.form.submit()">Join</button>
         @endif
-        <!-- TODO: Change to "leave" button if user is already in group -->
-        <form style="display:inline;" method="POST" action="/members/{{ Auth::id() }}">
-          @csrf
-          <input type="hidden" name="group" value="{{ $group->id }}">
-          @if ($group->members()->get()->contains(Auth::user()))
-            @method('DELETE')
-            <button class="btn btn-danger" onclick="this.form.submit()">Leave</button>
-          @else
-            @method('PATCH')
-            <button class="btn btn-primary" onclick="this.form.submit()">Join</button>
-          @endif
-        </form>
-      </div>
-    @endif
-  </div>
-  <div class="card-body">
-    <div class="mb-2">
-      {{ $group->description }}
+      </form>
     </div>
   </div>
 </div>
 
-@if (Auth::user() && (Auth::user()->owns($group) || Auth::user()->isSuperUser()))
+@if (Auth::user()->owns($group) || Auth::user()->isSuperUser())
 <!-- Edit Modal -->
 <div
   class="modal fade"

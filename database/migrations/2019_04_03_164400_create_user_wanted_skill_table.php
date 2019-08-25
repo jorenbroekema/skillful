@@ -17,7 +17,7 @@ class CreateUserWantedSkillTable extends Migration
         Schema::create('user_wanted_skill', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('wanted_skill_id');
+            $table->unsignedInteger('skill_id');
             $table->timestamps();
         });
     }

@@ -33,7 +33,7 @@ class Skill extends Model
      */
     public function isOwnedBy()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     /**
@@ -44,6 +44,6 @@ class Skill extends Model
      */
     public function isWantedBy()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'user_wanted_skill')->withTimestamps();
     }
 }

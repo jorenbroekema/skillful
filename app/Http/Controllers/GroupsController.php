@@ -48,9 +48,10 @@ class GroupsController extends Controller
     {
         $attributes = $this->validateRequest($request);
 
-        $group = Group::create($attributes);
+        $group = new Group($attributes);
+        $group->save();
         $group->owner()->associate(auth()->user());
-        $group->members()->attach(auth()->id());
+        $group->members()->attach(auth()->user());
         $group->save();
 
         // TODO: add event GroupsCreated
@@ -101,6 +102,7 @@ class GroupsController extends Controller
      */
     public function destroy(Group $group)
     {
+        $group->members()->detach();
         $group->delete();
         return redirect('/groups')->withErrors(['You have deleted the group '.$group->name.'.']);
     }

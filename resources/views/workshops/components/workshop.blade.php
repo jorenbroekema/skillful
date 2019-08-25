@@ -97,6 +97,7 @@
   </div>
 </div>
 
+<!-- TODO: Abstract it to a component -->
 @if(Auth::user() && (Auth::user()->owns($workshop) || Auth::user()->isSuperUser()))
 <!-- Edit Modal -->
 <div class="modal fade" id="workshopEditModal-{{ $workshop->id }}" tabindex="-1" role="dialog" aria-labelledby="workshopEditModalLabel-{{ $workshop->id }}" aria-hidden="true">

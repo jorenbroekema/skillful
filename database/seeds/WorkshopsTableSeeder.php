@@ -14,13 +14,13 @@ class WorkshopsTableSeeder extends Seeder
     {
         $counter = 0;
         factory(App\Workshop::class, 10)->create()->each(function ($workshop) use ($counter) {
-            $randomAmount = rand(0, 5);
-            $users = App\User::inRandomOrder()->take($randomAmount)->get();
-            $workshop->users()->saveMany($users);
-
             // Select a random user as the owner
             $owner = App\User::inRandomOrder()->first();
             $workshop->owner()->associate($owner);
+
+            $randomAmount = rand(0, 5);
+            $users = App\User::inRandomOrder()->take($randomAmount)->get();
+            $workshop->users()->saveMany($users);
 
             // 6 out of 10 workshops will belong to a group of the owner, if owner has a group
             if ($counter < 6) {

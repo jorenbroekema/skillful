@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DateTime;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'timezone',
     ];
 
     /**
@@ -63,6 +64,28 @@ class User extends Authenticatable
     }
 
     /**
+     * upcomingWorkshops
+     * Take all workshops the user participates in, or owns
+     * Filter out workshops that have a start_date that is in the past
+     * Order by first upcoming start_date
+     *
+     * @return Collection|App\Workshop[]
+     */
+    public function upcomingWorkshops()
+    {
+        $participatingWorkshops = $this->workshops()->get();
+        $ownedWorkshops = $this->ownedWorkshops()->get();
+
+        $workshops = $participatingWorkshops->concat($ownedWorkshops)->filter(function ($value, $key) {
+            $workshopStart = new DateTime($value->start_date);
+            $now = new DateTime();
+            return $workshopStart > $now;
+        });
+
+        return $workshops->sortBy('start_date');
+    }
+
+    /**
      * Relation belongsToMany
      * The workshops that the user is participating in
      *
@@ -103,7 +126,7 @@ class User extends Authenticatable
      */
     public function skills()
     {
-        return $this->hasMany(Skill::class)->withTimestamps();
+        return $this->belongsToMany(Skill::class);
     }
 
     /**
@@ -114,6 +137,6 @@ class User extends Authenticatable
      */
     public function wantedSkills()
     {
-        return $this->hasMany(Skill::class)->withTimestamps();
+        return $this->belongsToMany(Skill::class, 'user_wanted_skill');
     }
 }
