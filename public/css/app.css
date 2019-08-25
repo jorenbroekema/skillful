@@ -10515,24 +10515,26 @@ body {
 }
 
 .footer-list {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   text-align: center;
-  margin: 0 auto;
-  display: flex;
   list-style: none;
   padding: 0;
+  margin: 10px 0px;
+  display: block;
+}
+
+.footer-list li {
+  display: inline;
 }
 
 @media (max-width: 768px) {
   .footer-list {
+    display: flex;
     flex-direction: column;
   }
 }
 
 .footer-list li {
-  padding: 10px 20px;
+  margin: 5px 20px;
 }
 
 .footer-desc {
@@ -10551,6 +10553,10 @@ body {
 
 .card .participate-button {
   align-self: flex-end;
+}
+
+.border-width-2 {
+  border-width: 2px;
 }
 
 .list-group {
@@ -10581,5 +10587,18 @@ body {
 
 .date--end .date__heading {
   color: #e3342f;
+}
+
+/* Dashboard */
+
+.avatar-wrapper {
+  width: 100px;
+  height: 100px;
+  background-image: url(/images/placeholder-ghost.png?1dd037782e642a370645633f56c0dc06);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  border-width: 2px;
+  border-style: solid;
 }
 

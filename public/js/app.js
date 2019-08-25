@@ -36478,8 +36478,8 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/joren/Documents/Work/Self/skillful/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/joren/Documents/Work/Self/skillful/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Joren\code\skillful\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Joren\code\skillful\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -44,13 +44,19 @@ class WorkshopsController extends Controller
     {
         $attributes = $this->validateRequest($request);
 
-        $workshop = Workshop::create($attributes);
-        $workshop->public = $request->get('public') === 'on' ? true : false;
-        $workshop->owner()->associate(auth()->user());
+        if ($attributes['start_date'] > $attributes['end_date']) {
+            return back()->withErrors(['Your start date cannot be later than your end date.']);
+        }
 
+        $workshop = new Workshop($attributes);
+        if (!$request->get('group') || $request->get('public') === 'on') {
+            $workshop->public = true;
+        }
+        $workshop->save();
+
+        $workshop->owner()->associate(auth()->user());
         $group = Group::where('id', $request->get('group'))->first();
         $workshop->group()->associate($group);
-
         $workshop->save();
 
         return redirect('/workshops')->with('success', 'You have created the workshop '.$workshop->title.'!');
@@ -91,8 +97,10 @@ class WorkshopsController extends Controller
      */
     public function destroy(Workshop $workshop)
     {
+        $workshop->users()->detach();
+        $workshop->owner()->dissociate();
         $workshop->delete();
-        return redirect('workshops')->withErrors(['You have deleted the workshop '.$workshop->name.'.']);
+        return redirect('/workshops')->withErrors(['You have deleted the workshop '.$workshop->name.'.']);
     }
 
     /**

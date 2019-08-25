@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,25 +12,52 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
-Auth::routes();
-
 Route::get('', 'HomeController@index');
 
+/**
+ * Auth related
+ */
+Auth::routes();
+Route::post('/changePassword', 'Auth\ChangePasswordController@changePassword');
+Route::post('/changeEmail', function(Request $request) {
+    $request->validate([
+        'email' => 'required|string|email|max:225|unique:users',
+    ]);
+
+    $newEmail = $request->get('email');
+    if ($newEmail === Auth::user()->email) {
+        return back()->withErrors([
+            "error" => "This is already your email address. Please choose a different email address."
+        ]);
+    }
+    $user = Auth::user();
+    $user->email = $newEmail;
+    $user->save();
+    return back()->with("success", "Password changed successfully!");
+});
+
+/**
+ * Bug reports
+ */
 Route::get('/bug', function () {
     return view('bug');
 });
 Route::post('bug', 'BugController@addBug');
 
+/**
+ * Feedback
+ */
 Route::get('/feedback', function () {
     return view('feedback');
 });
 Route::post('feedback', 'FeedbackController@addFeedback');
 
+/**
+ * Dashboard
+ */
+Route::get('/dashboard', function () {
+    return view('user-profile.dashboard', Auth::user());
+})->middleware('auth');
 
 /**
  * Workshop related controllers
