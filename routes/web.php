@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,3 +73,20 @@ Route::delete('participants/{participant}', 'WorkshopParticipantsController@remo
 Route::resource('groups', 'GroupsController');
 Route::patch('members/{member}', 'GroupMembersController@addMember');
 Route::delete('members/{member}', 'GroupMembersController@removeMember');
+
+
+/**
+ * LinkedIn API
+ */
+Route::get('/linkedin/callback', function() {
+    $success = app('linkedin')->getAccessToken(
+        Input::get('code'),
+        Input::get('state'),
+        Input::get('error'),
+        Input::get('error_description')
+    );
+
+    if (!$success) {
+        return redirect('login')->withErrors('Something went wrong in authorizing you with your LinkedIn profile.');
+    }
+});
