@@ -33,7 +33,7 @@ Route::post('/changeEmail', function(Request $request) {
     $user = Auth::user();
     $user->email = $newEmail;
     $user->save();
-    return back()->with("success", "Password changed successfully!");
+    return back()->with("success", "Email changed successfully!");
 });
 
 /**
