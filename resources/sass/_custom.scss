@@ -110,3 +110,19 @@ body {
   border-width: 2px;
   border-style: solid;
 }
+
+.linked-in__login {
+  background-image: url('../images/linkedin/li_default.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 40px;
+}
+
+.linked-in__login:hover {
+  background-image: url('../images/linkedin/li_hover.png');
+}
+
+.linked-in__login:active {
+  background-image: url('../images/linkedin/li_active.png');
+}

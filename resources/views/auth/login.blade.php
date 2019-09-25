@@ -65,9 +65,10 @@
             </div>
           </form>
           <div class="mt-4 text-center">
-            <button onclick="window.location='{{ app('linkedin')->getAuthorized() }}'" class="btn btn-primary">
-              Login with LinkedIn
-            </button>
+            <a href="#" onclick="window.location='{{ app('linkedin')->getAuthorized() }}'">
+              <div class="linked-in__login">
+              </div>
+            </a>
           </div>
         </div>
       </div>

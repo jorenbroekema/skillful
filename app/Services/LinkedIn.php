@@ -24,7 +24,7 @@ class LinkedIn
 
     public function getAccessToken($code, String $state, $error, $error_description) {
         if ($error !== null) {
-            return false;
+            return null;
         };
 
         if ($state === strval(session('csrfLinkedIn'))) {
@@ -49,22 +49,75 @@ class LinkedIn
             curl_close($ch);
 
             if ($result) {
-                $decodedResult = json_decode($result);
-
-                // TODO: Now make sure to securely HASH the access token, and save it to the user's account
-                // 1) If the user is logged in already, add the access token to the user entry in the DB
-                // 2) If the user is not logged in, first we should grab the email address from the linkedin profile
-                //    Then we check if it does not conflict with the email address of another user, and add him to the database.
-                //    If there is a conflict, we give them the option to
-
-                // TODO: Consider what to do about user names.
-
-                // TODO: Make password optional (nullable), since we can use LinkedIn access token instead
-                dd($decodedResult);
+                $decodedResult = json_decode($result, true);
+                return $decodedResult["access_token"];
             }
-
-            dd($result);
         }
-        return true;
+        return null;
+    }
+
+    public function handleAuth(String $accessToken)
+    {
+        $profile = $this->getProfileInfo($accessToken);
+
+        // 1) Check if user is already registered with the email address
+        $email = $this->getEmail($accessToken);
+
+        // 2) Register new user if no one with email address is registered
+        $avatar = $this->getAvatar($profile);
+
+        // 3) Authenticate if the user already exists with that email address
+
+        dd($email, $profile, $avatar);
+    }
+
+    private function getAvatar(Array $data)
+    {
+        // Get the last avatar in the array which is the largest version (800x800)
+        $avatarData = end($data["profilePicture"]["displayImage~"]["elements"]);
+        $avatarURL = $avatarData["identifiers"][0]["identifier"];
+    }
+
+    private function getEmail(String $accessToken)
+    {
+        $url = "https://api.linkedin.com/v2/emailAddress";
+        $url .= "?q=members&projection=(elements*(handle~))";
+
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'Connection: Keep-Alive',
+                'Authorization: Bearer '.$accessToken
+            ]
+        ]);
+
+        $result = curl_exec($ch);
+
+        curl_close($ch);
+
+        return json_decode($result, true)["elements"][0]["handle~"]["emailAddress"];
+    }
+
+    private function getProfileInfo(String $accessToken)
+    {
+        $url = "https://api.linkedin.com/v2/me";
+        $url .= "?projection=(id,firstName,lastName,profilePicture(displayImage~:playableStreams))";
+
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'Connection: Keep-Alive',
+                'Authorization: Bearer '.$accessToken
+            ]
+        ]);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($result, true);
     }
 }

@@ -79,14 +79,16 @@ Route::delete('members/{member}', 'GroupMembersController@removeMember');
  * LinkedIn API
  */
 Route::get('/linkedin/callback', function() {
-    $success = app('linkedin')->getAccessToken(
+    $accessToken = app('linkedin')->getAccessToken(
         Input::get('code'),
         Input::get('state'),
         Input::get('error'),
         Input::get('error_description')
     );
 
-    if (!$success) {
+    if (!$accessToken) {
         return redirect('login')->withErrors('Something went wrong in authorizing you with your LinkedIn profile.');
     }
+
+    app('linkedin')->handleAuth($accessToken);
 });

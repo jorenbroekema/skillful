@@ -10602,3 +10602,19 @@ body {
   border-style: solid;
 }
 
+.linked-in__login {
+  background-image: url(/images/li_default.png?44c0e13e9edcfc614084b49d3a2b581e);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 40px;
+}
+
+.linked-in__login:hover {
+  background-image: url(/images/li_hover.png?0da60030847d1d279be85a5497076f93);
+}
+
+.linked-in__login:active {
+  background-image: url(/images/li_active.png?65c826285db35803a0948db87d139f4b);
+}
+
